@@ -1,0 +1,571 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/notebook": {
+            "get": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Get list of notebooks",
+                "description": "Returns list of notebooks",
+                "operationId": "getNotebooksList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotebookCollection"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Store the new notebook",
+                "description": "Returns the created notebook data",
+                "operationId": "storeNotebook",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotebookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Notebook"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "errors": {
+                                            "description": "Errors",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "errors": {
+                                            "fio": [
+                                                "The fio field is required."
+                                            ],
+                                            "phone": [
+                                                "The phone field is required."
+                                            ],
+                                            "email": [
+                                                "The email field is required."
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notebook/{id}": {
+            "get": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Get notebook information",
+                "description": "Returns notebook data",
+                "operationId": "getNotebookById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notebook id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Notebook"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "errors": {
+                                            "description": "Errors",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "errors": "No query results for model [App\\Models\\Notebook] 999"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Update existing notebook",
+                "description": "Returns updated notebook data",
+                "operationId": "updateNotebook",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notebook id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NotebookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Notebook"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "errors": {
+                                            "description": "Errors",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "errors": "No query results for model [App\\Models\\Notebook] 999"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "errors": {
+                                            "description": "Errors",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "errors": {
+                                            "fio": [
+                                                "The fio field is required."
+                                            ],
+                                            "phone": [
+                                                "The phone field is required."
+                                            ],
+                                            "email": [
+                                                "The email field is required."
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notebooks"
+                ],
+                "summary": "Delete existing notebook",
+                "description": "Deletes a record and returns its id",
+                "operationId": "deleteNotebook",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notebook id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "notebook_id": {
+                                            "description": "Id of the deleted notebook",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": true,
+                                        "notebook_id": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "The response status",
+                                            "type": "boolean"
+                                        },
+                                        "errors": {
+                                            "description": "Errors",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "errors": "No query results for model [App\\Models\\Notebook] 999"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "NotebookRequest": {
+                "title": "Notebook request",
+                "description": "Notebook request data validation",
+                "required": [
+                    "fio",
+                    "phone",
+                    "email"
+                ],
+                "properties": {
+                    "fio": {
+                        "title": "FIO",
+                        "description": "FIO of a user",
+                        "type": "string",
+                        "example": "Ivanov Ivan Ivanovich"
+                    },
+                    "company": {
+                        "title": "Company",
+                        "description": "The name of the company",
+                        "type": "string",
+                        "example": "Future"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "Phone number",
+                        "type": "string",
+                        "example": "+79999999999"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "example@email.com"
+                    },
+                    "birth_date": {
+                        "title": "Birth Date",
+                        "description": "Birth Date",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-01-27"
+                    },
+                    "photo": {
+                        "title": "Photo",
+                        "description": "Photo link",
+                        "type": "string",
+                        "example": "https://via.placeholder.com/640x480.png/00dd77?text=qui"
+                    }
+                },
+                "type": "object"
+            },
+            "NotebookCollection": {
+                "title": "NotebookCollection",
+                "description": "Notebook collection",
+                "properties": {
+                    "success": {
+                        "title": "Success",
+                        "description": "Success",
+                        "type": "boolean"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Notebook"
+                        }
+                    },
+                    "links": {
+                        "title": "Links",
+                        "description": "Links",
+                        "properties": {
+                            "first": {
+                                "type": "string",
+                                "example": "http://localhost/api/v1/notebook?page=1"
+                            },
+                            "last": {
+                                "type": "string",
+                                "example": "http://localhost/api/v1/notebook?page=2"
+                            },
+                            "prev": {
+                                "type": "string",
+                                "example": null,
+                                "nullable": true
+                            },
+                            "next": {
+                                "type": "string",
+                                "example": "http://localhost/api/v1/notebook?page=2",
+                                "nullable": true
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "title": "Links",
+                        "description": "Links",
+                        "properties": {
+                            "current_page": {
+                                "type": "string",
+                                "example": "http://localhost/api/v1/notebook?page=1"
+                            },
+                            "from": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 2
+                            },
+                            "path": {
+                                "type": "string",
+                                "example": "http://localhost/api/v1/notebook"
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 15
+                            },
+                            "to": {
+                                "type": "integer",
+                                "example": 16
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 21
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "NotebookColection"
+                }
+            },
+            "Notebook": {
+                "title": "Notebook",
+                "description": "Notebook model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "fio": {
+                        "title": "FIO",
+                        "description": "FIO of a user",
+                        "type": "string",
+                        "example": "Ivanov Ivan Ivanovich"
+                    },
+                    "company": {
+                        "title": "Company",
+                        "description": "The name of the company",
+                        "type": "string",
+                        "example": "Future"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "Phone number",
+                        "type": "string",
+                        "example": "+79999999999"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "example@email.com"
+                    },
+                    "birth_date": {
+                        "title": "Birth Date",
+                        "description": "Birth Date",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-01-27"
+                    },
+                    "photo": {
+                        "title": "Photo",
+                        "description": "Photo link",
+                        "type": "string",
+                        "example": "https://via.placeholder.com/640x480.png/00dd77?text=qui"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Notebook"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Notebooks",
+            "description": "API Endpoints of Notebooks"
+        }
+    ]
+}
